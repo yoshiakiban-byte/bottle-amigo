@@ -409,28 +409,54 @@ if __name__ == '__main__':
 
     # Initialize database and seed if needed
     import sqlite3
+    print(f"[STARTUP] DB_PATH = {DB_PATH}")
+    print(f"[STARTUP] DB_PATH absolute = {os.path.abspath(DB_PATH)}")
+    print(f"[STARTUP] DB exists = {os.path.exists(DB_PATH)}")
+    if os.path.exists(DB_PATH):
+        print(f"[STARTUP] DB size = {os.path.getsize(DB_PATH)} bytes")
+
     needs_seed = True
     if os.path.exists(DB_PATH):
         try:
             conn = sqlite3.connect(DB_PATH)
             c = conn.cursor()
             c.execute("SELECT COUNT(*) FROM stores")
-            count = c.fetchone()[0]
+            store_count = c.fetchone()[0]
+            c.execute("SELECT COUNT(*) FROM users")
+            user_count = c.fetchone()[0]
+            c.execute("SELECT COUNT(*) FROM bottles")
+            bottle_count = c.fetchone()[0]
             conn.close()
-            if count > 0:
+            print(f"[STARTUP] stores={store_count} users={user_count} bottles={bottle_count}")
+            if store_count > 0:
                 needs_seed = False
-                print("Database already has data, skipping seed.")
-        except Exception:
+                print("[STARTUP] Database already has data, skipping seed.")
+        except Exception as e:
+            print(f"[STARTUP] DB check error: {e}")
             needs_seed = True
 
     init_db()
     migrate_db()
     if needs_seed:
+        print("[STARTUP] Running seed...")
         try:
             from bff.seed import seed_data
             seed_data()
         except Exception as e:
             print(f"Seed error (non-fatal): {e}", file=sys.stderr)
+
+    # Verify DB state after init
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        c.execute("SELECT COUNT(*) FROM users")
+        print(f"[STARTUP] Final user count: {c.fetchone()[0]}")
+        c.execute("SELECT name FROM users")
+        names = [r[0] for r in c.fetchall()]
+        print(f"[STARTUP] Users: {names}")
+        conn.close()
+    except Exception as e:
+        print(f"[STARTUP] Final check error: {e}")
 
     # Run server
     port = int(os.environ.get('PORT', 3001))
