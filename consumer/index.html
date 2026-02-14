@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bottle Amigo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app"></div>
+
+    <!-- Loading -->
+    <div id="loadingSpinner" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50" style="backdrop-filter:blur(4px);">
+        <div style="width:36px;height:36px;border:2px solid rgba(242,179,107,0.15);border-top-color:#F2B36B;border-radius:50;" class="loading"></div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="hidden fixed bottom-24 left-4 right-4 px-4 py-3 shadow-lg" style="background:rgba(26,34,53,0.95);color:#E8ECF1;border:1px solid rgba(242,179,107,0.12);"></div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

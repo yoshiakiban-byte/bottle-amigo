@@ -1,0 +1,282 @@
+/* Bottle Amigo — Store/Staff App
+   Brand: Midnight Navy + Soft Amber, calm & professional */
+
+:root {
+    --midnight: #111827;
+    --midnight-light: #1a2235;
+    --amber: #F2B36B;
+    --amber-dark: #D9983E;
+    --amber-muted: rgba(242, 179, 107, 0.1);
+    --rose: #D96C8A;
+    --mint: #9FB5A5;
+    --surface: #F8F9FB;
+    --surface-card: #FFFFFF;
+    --text-dark: #1F2937;
+    --text-secondary: #6B7280;
+    --text-muted: #9CA3AF;
+    --border: #E5E7EB;
+    --border-subtle: #F0F1F3;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.65;
+    letter-spacing: 0.02em;
+    -webkit-font-smoothing: antialiased;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* --- Page transitions --- */
+.page-view {
+    animation: gentleFadeIn 0.45s ease-out;
+}
+
+@keyframes gentleFadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Toast --- */
+.toast {
+    animation: slideInUp 0.4s ease-out;
+}
+
+@keyframes slideInUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #D1D5DB;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #9CA3AF;
+}
+
+/* --- Progress bar --- */
+.progress-bar {
+    height: 5px;
+    background: var(--border-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--amber);
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+
+/* --- Numeric input --- */
+input[inputmode="numeric"] {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* --- iPad landscape --- */
+@media (min-width: 1024px) {
+    #content {
+        max-height: calc(100vh - 72px);
+    }
+}
+
+/* --- Mobile/Portrait --- */
+@media (max-width: 768px) {
+    #content {
+        max-height: calc(100vh - 140px);
+    }
+
+    .nav-link {
+        padding: 10px 16px;
+    }
+
+    button, input, select, textarea {
+        min-height: 44px;
+        font-size: 16px;
+    }
+}
+
+/* --- Focus states --- */
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+}
+
+/* --- Bottle card --- */
+.bottle-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bottle-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* --- Checkin card --- */
+.checkin-card {
+    transition: all 0.3s ease;
+    border: 1px solid var(--border);
+}
+
+.checkin-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    border-color: var(--amber);
+}
+
+/* --- Mama-only elements --- */
+.mama-only {
+    display: none;
+}
+
+.mama-only.visible {
+    display: flex;
+}
+
+.mama-only.visible-block {
+    display: block;
+}
+
+.mama-only.visible-inline {
+    display: inline;
+}
+
+/* --- Loading animation --- */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.loading {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* --- Range slider --- */
+input[type="range"] {
+    width: 100%;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--border-subtle);
+    outline: none;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--amber);
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(242, 179, 107, 0.3);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--amber);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 1px 4px rgba(242, 179, 107, 0.3);
+}
+
+/* --- Sidebar --- */
+@media (max-width: 1023px) {
+    #sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 40;
+        transform: translateX(-100%);
+        visibility: hidden;
+        transition: all 0.35s ease;
+        width: 64vw;
+        max-width: 280px;
+    }
+
+    body.sidebar-open #sidebar {
+        transform: translateX(0);
+        visibility: visible;
+    }
+
+    body.sidebar-open #app {
+        position: fixed;
+        overflow: hidden;
+    }
+
+    body.sidebar-open #content {
+        position: fixed;
+    }
+}
+
+/* --- Card accent --- */
+.accent-left {
+    border-left: 3px solid var(--amber);
+}
+
+/* --- Toast types --- */
+.error-toast {
+    background-color: #FEF2F2;
+    color: #991B1B;
+    border-left: 3px solid var(--rose);
+}
+
+.success-toast {
+    background-color: #F0FAF3;
+    color: #166534;
+    border-left: 3px solid var(--mint);
+}
+
+.info-toast {
+    background-color: #F5F3FF;
+    color: #3730A3;
+    border-left: 3px solid var(--amber);
+}
+
+/* --- Text truncation --- */
+.truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.truncate-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* --- Selection --- */
+::selection {
+    background-color: rgba(242, 179, 107, 0.2);
+}

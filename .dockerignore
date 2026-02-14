@@ -1,0 +1,10 @@
+__pycache__
+*.pyc
+.git
+*.md
+*.txt
+bff/dev.db
+bff/bottle_amigo.db
+bottle_amigo.db
+/tmp
+.DS_Store
