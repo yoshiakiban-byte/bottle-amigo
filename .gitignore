@@ -1,10 +1,9 @@
 .fuse_hidden*
 __pycache__/
 *.pyc
-*.db
 *.db-shm
 *.db-wal
+bff/dev.db
 .DS_Store
 ~$*
-bff/dev.db
 /tmp
