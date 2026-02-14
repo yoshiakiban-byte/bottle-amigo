@@ -4,7 +4,7 @@ __pycache__
 *.md
 *.txt
 bff/dev.db
-bff/bottle_amigo.db
-bottle_amigo.db
+*.db-shm
+*.db-wal
 /tmp
 .DS_Store

@@ -2,6 +2,9 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
+# Disable Python output buffering so logs appear immediately
+ENV PYTHONUNBUFFERED=1
+
 # Copy all project files
 COPY . .
 
