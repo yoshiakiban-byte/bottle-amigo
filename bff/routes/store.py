@@ -71,6 +71,24 @@ def get_active_checkins(self, params):
             b['capacityMl'] = b.pop('capacity_ml', 750)
             b['remainingMl'] = b.pop('remaining_ml', 750)
 
+        # Get latest memo for this customer
+        cursor.execute("""
+            SELECT cm.body, cm.created_at, sa.name as staff_name
+            FROM customer_memos cm
+            LEFT JOIN staff_accounts sa ON cm.author_staff_id = sa.id
+            WHERE cm.store_id = ? AND cm.user_id = ?
+            ORDER BY cm.created_at DESC
+            LIMIT 1
+        """, (store_id, row['user_id']))
+        memo_row = cursor.fetchone()
+        latest_memo = None
+        if memo_row:
+            latest_memo = {
+                'body': memo_row['body'],
+                'createdAt': memo_row['created_at'],
+                'staffName': memo_row['staff_name'],
+            }
+
         # Build camelCase checkin object for frontend
         checkin = {
             'id': row['id'],
@@ -82,6 +100,7 @@ def get_active_checkins(self, params):
             'status': row['status'],
             'bottles': bottles,
             'user': user,
+            'latestMemo': latest_memo,
         }
         checkins.append(checkin)
 

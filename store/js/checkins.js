@@ -101,6 +101,19 @@ class CheckinsModule {
             </div>`;
             }).join('');
 
+        // Latest memo
+        let memoHtml = '';
+        if (checkin.latestMemo) {
+            const m = checkin.latestMemo;
+            const memoDate = new Date(m.createdAt).toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' });
+            const memoBody = this.esc(m.body).length > 50 ? this.esc(m.body).substring(0, 50) + '…' : this.esc(m.body);
+            memoHtml = `
+                <div style="margin-top:10px;padding:8px 10px;background:rgba(242,179,107,0.08);border-radius:8px;border-left:3px solid #F2B36B;">
+                    <p style="font-size:11px;color:#6B7280;margin:0;">${m.staffName ? this.esc(m.staffName) + ' · ' : ''}${memoDate}</p>
+                    <p style="font-size:12px;color:#374151;margin:2px 0 0;">${memoBody}</p>
+                </div>`;
+        }
+
         return `
             <div class="bg-white rounded-lg shadow p-4 checkin-card hover:shadow-md transition">
                 <div class="flex items-start gap-3 mb-3">
@@ -111,6 +124,8 @@ class CheckinsModule {
                         ${prevCheckinStr ? `<p class="text-xs text-gray-400 mt-1">前回: ${prevCheckinStr}</p>` : '<p class="text-xs text-gray-400 mt-1">初来店</p>'}
                     </button>
                 </div>
+
+                ${memoHtml}
 
                 ${bottlesHtml ? `<div class="space-y-2 my-4 border-t border-b border-gray-200 py-3">${bottlesHtml}</div>` : ''}
 
